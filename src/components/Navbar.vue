@@ -1,25 +1,20 @@
 <template>
   <nav class="navbar navbar-dark bg-bookstore">
     <a class="navbar-brand" href="/">Home</a>
+    <router-link to="/courses" class="btn btn-logout btn-sm">Cursos</router-link>
     <template v-if="currentUser">
-      <router-link to="/edit" class="btn btn-logout btn-sm"
-        >Editar Usuario
-      </router-link>
+      <router-link to="/edit" class="btn btn-logout btn-sm">Editar Usuario</router-link>
+      <router-link to="/my-courses" class="btn btn-logout btn-sm">Mis Cursos</router-link>
+      <router-link to="/lesson" class="btn btn-logout btn-sm">Lecciones</router-link>
       <span class="navbar-text">
         {{ currentUser.email }}
-        <router-link to="/logout" class="btn btn-logout btn-sm"
-          >Logout</router-link
-        >
+        <router-link to="/logout" class="btn btn-logout btn-sm">Logout</router-link>
       </span>
     </template>
 
     <template v-if="!currentUser">
-      <router-link to="/Login" class="btn btn-logout btn-sm"
-        >Login
-      </router-link>
-      <router-link to="/Sign-Up" class="btn btn-logout btn-sm"
-        >Sign Up
-      </router-link>
+      <router-link to="/Login" class="btn btn-logout btn-sm">Login</router-link>
+      <router-link to="/Sign-Up" class="btn btn-logout btn-sm">Sign Up</router-link>
     </template>
   </nav>
 </template>

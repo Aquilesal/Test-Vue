@@ -1,9 +1,9 @@
 <template>
-  <div class="">
+  <div class>
     <form class="form-signin" @submit.prevent="edit">
       <h2 class="form-signin-heading">Edit User Data</h2>
       <div class="alert alert-danger" v-if="error">{{ error }}</div>
-      <label for="inputUsuario" class="">Nombre Usuario</label>
+      <label for="inputUsuario" class>Nombre Usuario</label>
       <input
         disabled
         v-model="dataUser.name"
@@ -13,7 +13,7 @@
         required
         autofocus
       />
-      <label for="inputEmail" class="">Email</label>
+      <label for="inputEmail" class>Email</label>
       <input
         disabled
         v-model="dataUser.email_usuario"
@@ -23,7 +23,7 @@
         required
         autofocus
       />
-      <label for="inputName" class="">Nombre</label>
+      <label for="inputName" class>Nombre</label>
       <input
         v-model="dataUser.nombre"
         type="text"
@@ -33,7 +33,7 @@
         required
         autofocus
       />
-      <label for="inputApellido" class="">Apellido</label>
+      <label for="inputApellido" class>Apellido</label>
       <input
         v-model="dataUser.apellido"
         type="text"
@@ -44,7 +44,7 @@
         autofocus
       />
 
-      <label for="inputUni" class="">Compania/Universidad</label>
+      <label for="inputUni" class>Compania/Universidad</label>
       <input
         v-model="dataUser.compania_universidad"
         type="text"
@@ -53,7 +53,7 @@
         required
         autofocus
       />
-      <label for="inputProfesion" class="">Profesion</label>
+      <label for="inputProfesion" class>Profesion</label>
       <input
         v-model="dataUser.profesion"
         type="text"
@@ -62,7 +62,7 @@
         required
         autofocus
       />
-      <label for="inputPais" class="">Pais</label>
+      <label for="inputPais" class>Pais</label>
       <input
         v-model="dataUser.pais"
         type="text"
@@ -72,7 +72,7 @@
         autofocus
       />
 
-      <label for="inputImagen" class="">Imagen</label>
+      <label for="inputImagen" class>Imagen</label>
       <input
         v-model="dataUser.imagen_usuario.guid"
         type="text"
@@ -82,9 +82,7 @@
         autofocus
       />
 
-      <button class="btn btn-lg btn-primary btn-block" type="submit">
-        Save
-      </button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Save</button>
     </form>
   </div>
 </template>
