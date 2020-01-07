@@ -1,5 +1,6 @@
 <template>
   <div class>
+    <H1>Mis cursos</H1>
     <div class="alert alert-danger" v-if="msg">{{ msg }}</div>
     <ul>
       <li v-for="courses in list">
@@ -21,7 +22,7 @@ export default {
     ...mapGetters({ currentUser: "currentUser" })
   },
   mounted() {
-    this.getData();
+    this.validateCoursesInscribed();
   },
   created() {
     this.checkCurrentLogin();
@@ -32,6 +33,7 @@ export default {
   data() {
     return {
       list: [],
+      courses_inscribed: [],
       error: false,
       msg: false
     };
@@ -42,11 +44,23 @@ export default {
         this.$router.push("/?redirect=" + this.$route.path);
       }
     },
+    validateCoursesInscribed() {
+      this.$http
+        .get(
+          "my_rest_server/v1/user-inscribed?username=" + localStorage.username
+        )
+        .then(request => {
+          console.log(request);
+          this.courses_inscribed = request.data;
+          this.getData();
+        })
+        .catch(error => this.SearchFailed());
+    },
     getData() {
       this.$http
         .get("/wp/v2/curso")
         .then(request => {
-          console.log(request.data);
+          // console.log(request.data);
           this.SearchSuccessful(request);
         })
         .catch(error => console.log(error));
@@ -55,11 +69,13 @@ export default {
     SearchSuccessful(request) {
       var i;
       var j;
-      for (i = 0; i < request.data.length; i++) {
-        for (j = 0; j < request.data[i].estudiantes_inscritos.length; j++) {
-          if (
-            request.data[i].estudiantes_inscritos[j] == localStorage.username
-          ) {
+      var data = request.data;
+      var inscribed = this.courses_inscribed;
+
+      for (i = 0; i < data.length; i++) {
+        for (j = 0; j < inscribed.length; j++) {
+          if (data[i].id == inscribed[j].id_curso) {
+            console.log("entre");
             this.list.push(request.data[i]);
           }
         }
@@ -68,9 +84,6 @@ export default {
       if (this.list.length == 0) {
         this.msg = "No tiene cursos";
       }
-    },
-    EditFailed() {
-      this.error = "Edit failed!";
     }
   }
 };

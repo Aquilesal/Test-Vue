@@ -25,7 +25,7 @@ export default {
     ...mapGetters({ currentUser: "currentUser" })
   },
   mounted() {
-    this.validateInscription();
+    this.validateCoursesInscribed();
   },
   created() {
     this.checkCurrentLogin();
@@ -36,6 +36,7 @@ export default {
   data() {
     return {
       list: [],
+      courses_inscribed: [],
       module: [],
       validate: false,
       error: "",
@@ -48,29 +49,33 @@ export default {
         this.$router.push("/?redirect=" + this.$route.path);
       }
     },
-    validateInscription() {
+    validateCoursesInscribed() {
+      this.$http
+        .get("my_rest_server/v1/user-by-course?course=" + this.id)
+        .then(request => {
+          // console.log(request);
+          this.courses_inscribed = request.data;
+          this.getData();
+        })
+        .catch(error => this.SearchFailed());
+    },
+    getData() {
       this.$http
         .get("/wp/v2/curso/" + this.id)
         .then(request => {
-          console.log(request);
+          // console.log(request);
           this.SearchSuccessful(request);
         })
         .catch(error => this.SearchFailed());
     },
     SearchSuccessful(request) {
-      var i;
-
-      var estudiantes = request.data.estudiantes_inscritos;
-
-      for (i = 0; i < estudiantes.length; i++) {
-        if (estudiantes[i] == localStorage.username) {
-          this.list = request.data;
-          this.module = request.data.modulo;
-          this.validate = true;
-          break;
-        }
+      if (this.courses_inscribed.length == 0) {
+        this.error = "No se encuentra inscrito en el curso solicitado";
+      } else {
+        this.list = request.data;
+        this.module = request.data.modulo;
+        this.validate = true;
       }
-      this.error = "No se encuentra inscrito en el curso solicitado";
     },
     SearchFailed() {
       this.error = "El curso solicitado no existe";
